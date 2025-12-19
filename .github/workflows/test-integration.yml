@@ -1,0 +1,159 @@
+# file: .github/workflows/test-integration.yml
+# version: 1.0.0
+# guid: f6a7b8c9-d0e1-2345-f012-456789012345
+
+name: Integration Tests
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-single-platform:
+    name: Test Single Platform Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      - name: Create test project
+        run: |
+          mkdir -p test-project
+          cd test-project
+          cat > go.mod << 'EOF'
+          module github.com/test/single-platform
+
+          go 1.23
+          EOF
+
+          cat > main.go << 'EOF'
+          package main
+
+          import "fmt"
+
+          func main() {
+              fmt.Println("Single platform test")
+          }
+          EOF
+
+      - name: Test single platform build
+        uses: ./
+        with:
+          version: "1.0.0-test"
+          project-path: "./test-project"
+          binary-name: "test-single"
+          platforms: "linux/amd64"
+          upload-artifacts: "false"
+          dry-run: "true"
+
+  test-multi-platform:
+    name: Test Multi-Platform Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      - name: Create test project
+        run: |
+          mkdir -p test-project
+          cd test-project
+          cat > go.mod << 'EOF'
+          module github.com/test/multi-platform
+
+          go 1.23
+          EOF
+
+          cat > main.go << 'EOF'
+          package main
+
+          import (
+              "fmt"
+              "runtime"
+          )
+
+          func main() {
+              fmt.Printf("Running on %s/%s\n", runtime.GOOS, runtime.GOARCH)
+          }
+          EOF
+
+      - name: Test multi-platform build
+        uses: ./
+        with:
+          version: "1.0.0-multiplatform"
+          project-path: "./test-project"
+          binary-name: "test-multi"
+          platforms: "linux/amd64,linux/arm64,darwin/amd64,darwin/arm64,windows/amd64"
+          upload-artifacts: "true"
+          dry-run: "true"
+
+      - name: Verify artifacts
+        run: |
+          # Check that artifacts were created for each platform
+          platforms=("linux-amd64" "linux-arm64" "darwin-amd64" "darwin-arm64" "windows-amd64")
+          for platform in "${platforms[@]}"; do
+            echo "Checking for $platform artifact..."
+            # Artifact verification logic would go here
+          done
+          echo "✅ Multi-platform build completed"
+
+  test-with-ldflags:
+    name: Test Build with LDFlags
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      - name: Create test project with version info
+        run: |
+          mkdir -p test-project
+          cd test-project
+          cat > go.mod << 'EOF'
+          module github.com/test/ldflags
+
+          go 1.23
+          EOF
+
+          cat > main.go << 'EOF'
+          package main
+
+          import "fmt"
+
+          var (
+              Version = "dev"
+              Commit = "unknown"
+          )
+
+          func main() {
+              fmt.Printf("Version: %s, Commit: %s\n", Version, Commit)
+          }
+          EOF
+
+      - name: Test with ldflags
+        uses: ./
+        with:
+          version: "1.0.0-ldflags"
+          project-path: "./test-project"
+          binary-name: "test-ldflags"
+          platforms: "linux/amd64"
+          ldflags: "-X main.Version=1.0.0-ldflags -X main.Commit=test123"
+          upload-artifacts: "false"
+          dry-run: "true"

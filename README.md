@@ -73,26 +73,26 @@ GitHub Action for releasing Go modules with automatic SDK tagging and multi-modu
 
 ## Inputs
 
-| Input | Description | Required | Default |
-|-------|-------------|----------|---------|
-| `module-path` | Path to Go module | No | `.` |
-| `go-version` | Go version to use | No | `1.23` |
-| `tag` | Release tag (e.g., v1.2.3) | Yes | - |
-| `is-sdk` | Enable SDK-specific tagging | No | `false` |
-| `sdk-language` | SDK language identifier | No | - |
-| `run-tests` | Run tests before release | No | `true` |
-| `run-linters` | Run linters before release | No | `true` |
-| `create-release` | Create GitHub release | No | `true` |
-| `release-notes` | Custom release notes | No | - |
-| `github-token` | GitHub token | No | `${{ github.token }}` |
+| Input            | Description                 | Required | Default               |
+| ---------------- | --------------------------- | -------- | --------------------- |
+| `module-path`    | Path to Go module           | No       | `.`                   |
+| `go-version`     | Go version to use           | No       | `1.23`                |
+| `tag`            | Release tag (e.g., v1.2.3)  | Yes      | -                     |
+| `is-sdk`         | Enable SDK-specific tagging | No       | `false`               |
+| `sdk-language`   | SDK language identifier     | No       | -                     |
+| `run-tests`      | Run tests before release    | No       | `true`                |
+| `run-linters`    | Run linters before release  | No       | `true`                |
+| `create-release` | Create GitHub release       | No       | `true`                |
+| `release-notes`  | Custom release notes        | No       | -                     |
+| `github-token`   | GitHub token                | No       | `${{ github.token }}` |
 
 ## Outputs
 
-| Output | Description |
-|--------|-------------|
-| `tag` | The tag that was created |
-| `sdk-tag` | The SDK-specific tag (if applicable) |
-| `release-url` | URL of the created release |
+| Output        | Description                          |
+| ------------- | ------------------------------------ |
+| `tag`         | The tag that was created             |
+| `sdk-tag`     | The SDK-specific tag (if applicable) |
+| `release-url` | URL of the created release           |
 
 ## Examples
 
@@ -161,10 +161,10 @@ This creates both:
       ## 🎉 Features
       - New authentication system
       - Improved error handling
-      
+
       ## 🐛 Bug Fixes
       - Fixed memory leak in worker pool
-      
+
       ## ⚠️ Breaking Changes
       - Renamed `Config` to `Settings`
 ```
@@ -183,12 +183,12 @@ This creates both:
 
 ## Tag Format
 
-| Scenario | Tag Format | Example |
-|----------|------------|---------|
-| Root module | `{tag}` | `v1.0.0` |
-| Nested module | `{module-path}/{tag}` | `pkg/auth/v1.0.0` |
-| SDK module | `{sdk-language}/{tag}` | `go/v2.0.0` |
-| SDK + nested | Both tags created | `sdk/go/v1.0.0` + `go/v1.0.0` |
+| Scenario      | Tag Format             | Example                       |
+| ------------- | ---------------------- | ----------------------------- |
+| Root module   | `{tag}`                | `v1.0.0`                      |
+| Nested module | `{module-path}/{tag}`  | `pkg/auth/v1.0.0`             |
+| SDK module    | `{sdk-language}/{tag}` | `go/v2.0.0`                   |
+| SDK + nested  | Both tags created      | `sdk/go/v1.0.0` + `go/v1.0.0` |
 
 ## License
 

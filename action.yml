@@ -2,68 +2,68 @@
 # version: 1.0.0
 # guid: 4d9a2e7b-5c1f-4a3e-8b6d-9e2c7f4a1b8e
 
-name: 'Release Go Module'
-description: 'Release Go modules with automatic SDK tagging and multi-module support'
-author: 'jdfalk'
+name: "Release Go Module"
+description: "Release Go modules with automatic SDK tagging and multi-module support"
+author: "jdfalk"
 
 branding:
-  icon: 'box'
-  color: 'cyan'
+  icon: "box"
+  color: "cyan"
 
 inputs:
   module-path:
-    description: 'Path to Go module (relative to repository root)'
+    description: "Path to Go module (relative to repository root)"
     required: false
-    default: '.'
+    default: "."
   go-version:
-    description: 'Go version to use'
+    description: "Go version to use"
     required: false
-    default: '1.23'
+    default: "1.23"
   tag:
-    description: 'Release tag (e.g., v1.2.3)'
+    description: "Release tag (e.g., v1.2.3)"
     required: true
   is-sdk:
-    description: 'Whether this is an SDK module (enables SDK-specific tagging)'
+    description: "Whether this is an SDK module (enables SDK-specific tagging)"
     required: false
-    default: 'false'
+    default: "false"
   sdk-language:
-    description: 'SDK language (go, python, typescript, etc.)'
+    description: "SDK language (go, python, typescript, etc.)"
     required: false
-    default: ''
+    default: ""
   run-tests:
-    description: 'Whether to run tests before release'
+    description: "Whether to run tests before release"
     required: false
-    default: 'true'
+    default: "true"
   run-linters:
-    description: 'Whether to run linters before release'
+    description: "Whether to run linters before release"
     required: false
-    default: 'true'
+    default: "true"
   create-release:
-    description: 'Whether to create a GitHub release'
+    description: "Whether to create a GitHub release"
     required: false
-    default: 'true'
+    default: "true"
   release-notes:
-    description: 'Custom release notes (markdown)'
+    description: "Custom release notes (markdown)"
     required: false
-    default: ''
+    default: ""
   github-token:
-    description: 'GitHub token for creating releases'
+    description: "GitHub token for creating releases"
     required: false
     default: ${{ github.token }}
 
 outputs:
   tag:
-    description: 'The tag that was created'
+    description: "The tag that was created"
     value: ${{ steps.tag-output.outputs.tag }}
   sdk-tag:
-    description: 'The SDK-specific tag (if applicable)'
+    description: "The SDK-specific tag (if applicable)"
     value: ${{ steps.sdk-tag.outputs.sdk-tag }}
   release-url:
-    description: 'URL of the created release'
+    description: "URL of the created release"
     value: ${{ steps.create-release.outputs.url }}
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Set up Go
       uses: actions/setup-go@v5
@@ -134,16 +134,16 @@ runs:
         GITHUB_TOKEN: ${{ inputs.github-token }}
       run: |
         TAG="${{ steps.tag-output.outputs.tag }}"
-        
+
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
-        
+
         # Create main tag
         git tag -a "$TAG" -m "Release $TAG"
         git push origin "$TAG"
-        
+
         echo "Created and pushed tag: $TAG"
-        
+
         # Create SDK tag if applicable
         if [ "${{ inputs.is-sdk }}" == "true" ] && [ -n "${{ steps.sdk-tag.outputs.sdk-tag }}" ]; then
           SDK_TAG="${{ steps.sdk-tag.outputs.sdk-tag }}"

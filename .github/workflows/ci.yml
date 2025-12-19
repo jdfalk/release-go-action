@@ -1,0 +1,123 @@
+# file: .github/workflows/ci.yml
+# version: 1.0.0
+# guid: d4e5f6a7-b8c9-0123-def0-234567890123
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate Action
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate action.yml
+        run: |
+          if [ ! -f action.yml ]; then
+            echo "Error: action.yml not found"
+            exit 1
+          fi
+
+          # Check for required fields
+          if ! grep -q "name:" action.yml; then
+            echo "Error: action.yml missing 'name' field"
+            exit 1
+          fi
+
+          echo "✅ action.yml validation passed"
+
+      - name: Check README exists
+        run: |
+          if [ ! -f README.md ]; then
+            echo "Error: README.md not found"
+            exit 1
+          fi
+          echo "✅ README.md found"
+
+  test:
+    name: Test Action
+    runs-on: ubuntu-latest
+    needs: validate
+    strategy:
+      matrix:
+        go-version: ["1.21", "1.22", "1.23"]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Create test Go module
+        run: |
+          mkdir -p test-project
+          cd test-project
+          cat > go.mod << 'EOF'
+          module github.com/test/project
+
+          go 1.23
+          EOF
+
+          cat > main.go << 'EOF'
+          package main
+
+          import "fmt"
+
+          func main() {
+              fmt.Println("Hello, World!")
+          }
+          EOF
+
+      - name: Test action execution
+        id: test
+        uses: ./
+        with:
+          version: "1.0.0-test"
+          project-path: "./test-project"
+          binary-name: "test-app"
+          platforms: "linux/amd64"
+          upload-artifacts: "true"
+          dry-run: "true"
+
+      - name: Verify outputs
+        run: |
+          echo "Version: ${{ steps.test.outputs.version }}"
+          echo "Artifacts: ${{ steps.test.outputs.artifacts }}"
+
+          if [ -z "${{ steps.test.outputs.version }}" ]; then
+            echo "Error: version output is empty"
+            exit 1
+          fi
+
+          echo "✅ Action outputs validated"
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run yamllint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: action.yml
+          config_data: |
+            extends: default
+            rules:
+              line-length:
+                max: 120
+                level: warning
