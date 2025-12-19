@@ -85,12 +85,13 @@ jobs:
         id: test
         uses: ./
         with:
-          version: "1.0.0-test"
-          project-path: "./test-project"
-          binary-name: "test-app"
-          platforms: "linux/amd64"
-          upload-artifacts: "true"
-          dry-run: "true"
+          module-path: "./test-project"
+          go-version: "${{ matrix.go-version }}"
+          tag: "v1.0.0-test"
+          run-tests: "true"
+          run-linters: "false"
+          create-release: "false"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Verify outputs
         run: |
