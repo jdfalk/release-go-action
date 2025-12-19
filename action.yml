@@ -70,7 +70,6 @@ runs:
       with:
         go-version: ${{ inputs.go-version }}
         cache-dependency-path: ${{ inputs.module-path }}/go.sum
-      shell: bash
 
     - name: Verify Go module
       shell: bash
@@ -164,7 +163,6 @@ runs:
         body: ${{ inputs.release-notes }}
         draft: false
         prerelease: false
-      shell: bash
 
     - name: Output summary
       shell: bash
