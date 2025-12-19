@@ -1,0 +1,182 @@
+# file: action.yml
+# version: 1.0.0
+# guid: 4d9a2e7b-5c1f-4a3e-8b6d-9e2c7f4a1b8e
+
+name: 'Release Go Module'
+description: 'Release Go modules with automatic SDK tagging and multi-module support'
+author: 'jdfalk'
+
+branding:
+  icon: 'box'
+  color: 'cyan'
+
+inputs:
+  module-path:
+    description: 'Path to Go module (relative to repository root)'
+    required: false
+    default: '.'
+  go-version:
+    description: 'Go version to use'
+    required: false
+    default: '1.23'
+  tag:
+    description: 'Release tag (e.g., v1.2.3)'
+    required: true
+  is-sdk:
+    description: 'Whether this is an SDK module (enables SDK-specific tagging)'
+    required: false
+    default: 'false'
+  sdk-language:
+    description: 'SDK language (go, python, typescript, etc.)'
+    required: false
+    default: ''
+  run-tests:
+    description: 'Whether to run tests before release'
+    required: false
+    default: 'true'
+  run-linters:
+    description: 'Whether to run linters before release'
+    required: false
+    default: 'true'
+  create-release:
+    description: 'Whether to create a GitHub release'
+    required: false
+    default: 'true'
+  release-notes:
+    description: 'Custom release notes (markdown)'
+    required: false
+    default: ''
+  github-token:
+    description: 'GitHub token for creating releases'
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  tag:
+    description: 'The tag that was created'
+    value: ${{ steps.tag-output.outputs.tag }}
+  sdk-tag:
+    description: 'The SDK-specific tag (if applicable)'
+    value: ${{ steps.sdk-tag.outputs.sdk-tag }}
+  release-url:
+    description: 'URL of the created release'
+    value: ${{ steps.create-release.outputs.url }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: ${{ inputs.go-version }}
+        cache-dependency-path: ${{ inputs.module-path }}/go.sum
+      shell: bash
+
+    - name: Verify Go module
+      shell: bash
+      working-directory: ${{ inputs.module-path }}
+      run: |
+        if [ ! -f "go.mod" ]; then
+          echo "Error: go.mod not found in ${{ inputs.module-path }}"
+          exit 1
+        fi
+        echo "Module: $(go list -m)"
+
+    - name: Run tests
+      if: inputs.run-tests == 'true'
+      shell: bash
+      working-directory: ${{ inputs.module-path }}
+      run: |
+        go test -v -race -coverprofile=coverage.out ./...
+        go tool cover -func=coverage.out
+
+    - name: Run linters
+      if: inputs.run-linters == 'true'
+      shell: bash
+      working-directory: ${{ inputs.module-path }}
+      run: |
+        go vet ./...
+        if command -v golangci-lint &> /dev/null; then
+          golangci-lint run
+        fi
+
+    - name: Build module
+      shell: bash
+      working-directory: ${{ inputs.module-path }}
+      run: |
+        go build -v ./...
+
+    - name: Generate SDK tag
+      id: sdk-tag
+      if: inputs.is-sdk == 'true' && inputs.sdk-language != ''
+      shell: bash
+      run: |
+        SDK_TAG="${{ inputs.sdk-language }}/${{ inputs.tag }}"
+        echo "sdk-tag=$SDK_TAG" >> $GITHUB_OUTPUT
+        echo "Generated SDK tag: $SDK_TAG"
+
+    - name: Set tag output
+      id: tag-output
+      shell: bash
+      run: |
+        MODULE_PATH="${{ inputs.module-path }}"
+        if [ "$MODULE_PATH" != "." ]; then
+          TAG="${MODULE_PATH}/${{ inputs.tag }}"
+        else
+          TAG="${{ inputs.tag }}"
+        fi
+        echo "tag=$TAG" >> $GITHUB_OUTPUT
+        echo "Generated tag: $TAG"
+
+    - name: Create and push tag
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      run: |
+        TAG="${{ steps.tag-output.outputs.tag }}"
+        
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        
+        # Create main tag
+        git tag -a "$TAG" -m "Release $TAG"
+        git push origin "$TAG"
+        
+        echo "Created and pushed tag: $TAG"
+        
+        # Create SDK tag if applicable
+        if [ "${{ inputs.is-sdk }}" == "true" ] && [ -n "${{ steps.sdk-tag.outputs.sdk-tag }}" ]; then
+          SDK_TAG="${{ steps.sdk-tag.outputs.sdk-tag }}"
+          git tag -a "$SDK_TAG" -m "SDK Release $SDK_TAG"
+          git push origin "$SDK_TAG"
+          echo "Created and pushed SDK tag: $SDK_TAG"
+        fi
+
+    - name: Create GitHub Release
+      id: create-release
+      if: inputs.create-release == 'true'
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      with:
+        tag_name: ${{ steps.tag-output.outputs.tag }}
+        release_name: Release ${{ steps.tag-output.outputs.tag }}
+        body: ${{ inputs.release-notes }}
+        draft: false
+        prerelease: false
+      shell: bash
+
+    - name: Output summary
+      shell: bash
+      run: |
+        echo "## Go Module Release Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Module Path:** ${{ inputs.module-path }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Tag:** ${{ steps.tag-output.outputs.tag }}" >> $GITHUB_STEP_SUMMARY
+        if [ "${{ inputs.is-sdk }}" == "true" ]; then
+          echo "**SDK Tag:** ${{ steps.sdk-tag.outputs.sdk-tag }}" >> $GITHUB_STEP_SUMMARY
+        fi
+        echo "**Go Version:** ${{ inputs.go-version }}" >> $GITHUB_STEP_SUMMARY
+        if [ "${{ inputs.create-release }}" == "true" ]; then
+          echo "**Release URL:** ${{ steps.create-release.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+        fi
