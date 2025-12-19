@@ -72,7 +72,6 @@ runs:
         cache-dependency-path: ${{ inputs.module-path }}/go.sum
 
     - name: Verify Go module
-      shell: bash
       working-directory: ${{ inputs.module-path }}
       run: |
         if [ ! -f "go.mod" ]; then
@@ -80,43 +79,43 @@ runs:
           exit 1
         fi
         echo "Module: $(go list -m)"
+      shell: bash
 
     - name: Run tests
       if: inputs.run-tests == 'true'
-      shell: bash
       working-directory: ${{ inputs.module-path }}
       run: |
         go test -v -race -coverprofile=coverage.out ./...
         go tool cover -func=coverage.out
+      shell: bash
 
     - name: Run linters
       if: inputs.run-linters == 'true'
-      shell: bash
       working-directory: ${{ inputs.module-path }}
       run: |
         go vet ./...
         if command -v golangci-lint &> /dev/null; then
           golangci-lint run
         fi
+      shell: bash
 
     - name: Build module
-      shell: bash
       working-directory: ${{ inputs.module-path }}
       run: |
         go build -v ./...
+      shell: bash
 
     - name: Generate SDK tag
       id: sdk-tag
       if: inputs.is-sdk == 'true' && inputs.sdk-language != ''
-      shell: bash
       run: |
         SDK_TAG="${{ inputs.sdk-language }}/${{ inputs.tag }}"
         echo "sdk-tag=$SDK_TAG" >> $GITHUB_OUTPUT
         echo "Generated SDK tag: $SDK_TAG"
+      shell: bash
 
     - name: Set tag output
       id: tag-output
-      shell: bash
       run: |
         MODULE_PATH="${{ inputs.module-path }}"
         if [ "$MODULE_PATH" != "." ]; then
@@ -126,9 +125,9 @@ runs:
         fi
         echo "tag=$TAG" >> $GITHUB_OUTPUT
         echo "Generated tag: $TAG"
+      shell: bash
 
     - name: Create and push tag
-      shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
       run: |
@@ -150,6 +149,7 @@ runs:
           git push origin "$SDK_TAG"
           echo "Created and pushed SDK tag: $SDK_TAG"
         fi
+      shell: bash
 
     - name: Create GitHub Release
       id: create-release
@@ -165,7 +165,6 @@ runs:
         prerelease: false
 
     - name: Output summary
-      shell: bash
       run: |
         echo "## Go Module Release Summary" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
@@ -178,3 +177,4 @@ runs:
         if [ "${{ inputs.create-release }}" == "true" ]; then
           echo "**Release URL:** ${{ steps.create-release.outputs.url }}" >> $GITHUB_STEP_SUMMARY
         fi
+      shell: bash
