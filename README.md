@@ -1,19 +1,21 @@
 <!-- file: README.md -->
-<!-- version: 1.0.0 -->
+<!-- version: 1.1.0 -->
 <!-- guid: 7e3a9f2d-4b8c-4e1a-9d6f-2c7e4a1b9d5e -->
 
 # Release Go Module Action
 
-GitHub Action for releasing Go modules with automatic SDK tagging and multi-module repository support.
+GitHub Action for releasing Go modules with GoReleaser, automatic SDK tagging and multi-module repository support.
 
 ## Features
 
-- 🚀 Automatic version tagging for Go modules
+- 🚀 Powered by GoReleaser for professional-grade releases
 - 📦 Multi-module repository support
 - 🏷️ SDK-specific tagging (e.g., `go/v1.2.3`, `python/v1.2.3`)
 - ✅ Built-in testing and linting
-- 📝 Automatic GitHub release creation
+- 📝 Automatic GitHub release creation with artifacts
 - 🔍 Module validation
+- 🎯 Cross-platform binary builds
+- 📊 Automatic checksums and archives
 
 ## Usage
 
@@ -24,6 +26,17 @@ GitHub Action for releasing Go modules with automatic SDK tagging and multi-modu
   uses: jdfalk/release-go-action@v1
   with:
     tag: v1.0.0
+    github-token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+### With GoReleaser Configuration
+
+```yaml
+- name: Release Go module with custom config
+  uses: jdfalk/release-go-action@v1
+  with:
+    tag: v1.0.0
+    goreleaser-config: .goreleaser.yml
     github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
@@ -62,7 +75,8 @@ GitHub Action for releasing Go modules with automatic SDK tagging and multi-modu
     tag: v1.5.0
     run-tests: true
     run-linters: true
-    create-release: true
+    goreleaser-config: .goreleaser.custom.yml
+    goreleaser-args: --timeout 30m
     release-notes: |
       ## What's Changed
       - Added new feature X
@@ -73,18 +87,21 @@ GitHub Action for releasing Go modules with automatic SDK tagging and multi-modu
 
 ## Inputs
 
-| Input            | Description                 | Required | Default               |
-| ---------------- | --------------------------- | -------- | --------------------- |
-| `module-path`    | Path to Go module           | No       | `.`                   |
-| `go-version`     | Go version to use           | No       | `1.23`                |
-| `tag`            | Release tag (e.g., v1.2.3)  | Yes      | -                     |
-| `is-sdk`         | Enable SDK-specific tagging | No       | `false`               |
-| `sdk-language`   | SDK language identifier     | No       | -                     |
-| `run-tests`      | Run tests before release    | No       | `true`                |
-| `run-linters`    | Run linters before release  | No       | `true`                |
-| `create-release` | Create GitHub release       | No       | `true`                |
-| `release-notes`  | Custom release notes        | No       | -                     |
-| `github-token`   | GitHub token                | No       | `${{ github.token }}` |
+| Input                | Description                             | Required | Default               |
+| -------------------- | --------------------------------------- | -------- | --------------------- |
+| `module-path`        | Path to Go module                       | No       | `.`                   |
+| `go-version`         | Go version to use                       | No       | `1.23`                |
+| `tag`                | Release tag (e.g., v1.2.3)              | Yes      | -                     |
+| `is-sdk`             | Enable SDK-specific tagging             | No       | `false`               |
+| `sdk-language`       | SDK language identifier                 | No       | -                     |
+| `run-tests`          | Run tests before release                | No       | `true`                |
+| `run-linters`        | Run linters before release              | No       | `true`                |
+| `create-release`     | Create GitHub release                   | No       | `true`                |
+| `release-notes`      | Custom release notes                    | No       | -                     |
+| `goreleaser-config`  | Path to .goreleaser.yml config          | No       | `.goreleaser.yml`     |
+| `goreleaser-args`    | Additional GoReleaser arguments         | No       | -                     |
+| `skip-publish`       | Skip publishing (use --snapshot)        | No       | `false`               |
+| `github-token`       | GitHub token                            | No       | `${{ github.token }}` |
 
 ## Outputs
 
@@ -93,6 +110,7 @@ GitHub Action for releasing Go modules with automatic SDK tagging and multi-modu
 | `tag`         | The tag that was created             |
 | `sdk-tag`     | The SDK-specific tag (if applicable) |
 | `release-url` | URL of the created release           |
+| `artifacts`   | List of artifacts created            |
 
 ## Examples
 
@@ -175,11 +193,56 @@ This creates both:
 2. **Validation**: Verifies go.mod exists in the module path
 3. **Testing**: Runs tests with race detector and coverage (optional)
 4. **Linting**: Runs `go vet` and `golangci-lint` if available (optional)
-5. **Building**: Ensures the module builds successfully
-6. **Tagging**: Creates appropriate tags:
+5. **Tagging**: Creates appropriate tags:
    - Module path tag: `{module-path}/{tag}` for nested modules
    - SDK tag: `{sdk-language}/{tag}` for SDK modules
-7. **Release**: Creates GitHub release with notes (optional)
+6. **GoReleaser**: Builds binaries, creates archives, generates checksums
+7. **Release**: Creates GitHub release with artifacts and notes
+
+## GoReleaser Configuration
+
+This action uses GoReleaser for building and releasing. You need a `.goreleaser.yml` file in your repository.
+
+### Example Configuration
+
+See [.goreleaser.example.yml](.goreleaser.example.yml) for a complete example.
+
+Basic `.goreleaser.yml`:
+
+```yaml
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - main: ./cmd/myapp
+    binary: myapp
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+
+checksum:
+  name_template: 'checksums.txt'
+
+changelog:
+  sort: asc
+```
+
+### Without GoReleaser
+
+If you don't have a `.goreleaser.yml` file, GoReleaser will use sensible defaults. However, for production use, we recommend creating a custom configuration.
 
 ## Tag Format
 

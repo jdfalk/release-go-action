@@ -1,14 +1,14 @@
 # file: action.yml
-# version: 1.0.0
+# version: 1.1.0
 # guid: 4d9a2e7b-5c1f-4a3e-8b6d-9e2c7f4a1b8e
 
 name: "Release Go Module"
-description: "Release Go modules with automatic SDK tagging and multi-module support"
+description: "Release Go modules with GoReleaser, automatic SDK tagging and multi-module support"
 author: "jdfalk"
 
 branding:
   icon: "box"
-  color: "cyan"
+  color: "blue"
 
 inputs:
   module-path:
@@ -46,6 +46,18 @@ inputs:
     description: "Custom release notes (markdown)"
     required: false
     default: ""
+  goreleaser-config:
+    description: "Path to .goreleaser.yml config file"
+    required: false
+    default: ".goreleaser.yml"
+  goreleaser-args:
+    description: "Additional arguments to pass to GoReleaser"
+    required: false
+    default: ""
+  skip-publish:
+    description: "Skip publishing (use --snapshot)"
+    required: false
+    default: "false"
   github-token:
     description: "GitHub token for creating releases"
     required: false
@@ -60,7 +72,10 @@ outputs:
     value: ${{ steps.sdk-tag.outputs.sdk-tag }}
   release-url:
     description: "URL of the created release"
-    value: ${{ steps.create-release.outputs.url }}
+    value: ${{ steps.goreleaser.outputs.url }}
+  artifacts:
+    description: "List of artifacts created"
+    value: ${{ steps.goreleaser.outputs.artifacts }}
 
 runs:
   using: "composite"
@@ -99,12 +114,6 @@ runs:
         fi
       shell: bash
 
-    - name: Build module
-      working-directory: ${{ inputs.module-path }}
-      run: |
-        go build -v ./...
-      shell: bash
-
     - name: Generate SDK tag
       id: sdk-tag
       if: inputs.is-sdk == 'true' && inputs.sdk-language != ''
@@ -127,7 +136,7 @@ runs:
         echo "Generated tag: $TAG"
       shell: bash
 
-    - name: Create and push tag
+    - name: Create and push tags
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
       run: |
@@ -139,7 +148,6 @@ runs:
         # Create main tag
         git tag -a "$TAG" -m "Release $TAG"
         git push origin "$TAG"
-
         echo "Created and pushed tag: $TAG"
 
         # Create SDK tag if applicable
@@ -151,18 +159,16 @@ runs:
         fi
       shell: bash
 
-    - name: Create GitHub Release
-      id: create-release
-      if: inputs.create-release == 'true'
-      uses: actions/create-release@v1
+    - name: Run GoReleaser
+      id: goreleaser
+      uses: goreleaser/goreleaser-action@v5
+      with:
+        distribution: goreleaser
+        version: latest
+        args: release --clean ${{ inputs.skip-publish == 'true' && '--snapshot' || '' }} ${{ inputs.goreleaser-args }}
+        workdir: ${{ inputs.module-path }}
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
-      with:
-        tag_name: ${{ steps.tag-output.outputs.tag }}
-        release_name: Release ${{ steps.tag-output.outputs.tag }}
-        body: ${{ inputs.release-notes }}
-        draft: false
-        prerelease: false
 
     - name: Output summary
       run: |
@@ -174,7 +180,7 @@ runs:
           echo "**SDK Tag:** ${{ steps.sdk-tag.outputs.sdk-tag }}" >> $GITHUB_STEP_SUMMARY
         fi
         echo "**Go Version:** ${{ inputs.go-version }}" >> $GITHUB_STEP_SUMMARY
-        if [ "${{ inputs.create-release }}" == "true" ]; then
-          echo "**Release URL:** ${{ steps.create-release.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+        if [ "${{ inputs.skip-publish }}" != "true" ]; then
+          echo "**Release URL:** ${{ steps.goreleaser.outputs.url }}" >> $GITHUB_STEP_SUMMARY
         fi
       shell: bash
