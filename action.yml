@@ -1,5 +1,5 @@
 # file: action.yml
-# version: 1.1.0
+# version: 1.1.1
 # guid: 4d9a2e7b-5c1f-4a3e-8b6d-9e2c7f4a1b8e
 
 name: "Release Go Module"
@@ -18,7 +18,7 @@ inputs:
   go-version:
     description: "Go version to use"
     required: false
-    default: "1.23"
+    default: "1.24"
   tag:
     description: "Release tag (e.g., v1.2.3)"
     required: true
@@ -80,10 +80,30 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Detect required Go version from go.mod
+      id: detect-go-version
+      shell: bash
+      run: |
+        set -euo pipefail
+        MOD_PATH="${{ inputs.module-path }}"
+        GO_REQUIRED=""
+        if [ -f "$MOD_PATH/go.mod" ]; then
+          GO_REQUIRED=$(grep -E '^go [0-9]+\.[0-9]+' "$MOD_PATH/go.mod" | awk '{print $2}' | head -n1 || true)
+        fi
+        # Fallback to input
+        INPUT_VER="${{ inputs.go-version }}"
+        CHOSEN="$INPUT_VER"
+        if [ -n "$GO_REQUIRED" ]; then
+          # Compare versions using sort -V
+          HIGHER=$(printf "%s\n%s\n" "$INPUT_VER" "$GO_REQUIRED" | sort -V | tail -n1)
+          CHOSEN="$HIGHER"
+        fi
+        echo "version=$CHOSEN" >> "$GITHUB_OUTPUT"
+
     - name: Set up Go
       uses: actions/setup-go@v5
       with:
-        go-version: ${{ inputs.go-version }}
+        go-version: ${{ steps.detect-go-version.outputs.version || inputs.go-version }}
         cache-dependency-path: ${{ inputs.module-path }}/go.sum
 
     - name: Verify Go module
