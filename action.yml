@@ -1,5 +1,5 @@
 # file: action.yml
-# version: 1.1.1
+# version: 1.1.2
 # guid: 4d9a2e7b-5c1f-4a3e-8b6d-9e2c7f4a1b8e
 
 name: "Release Go Module"
@@ -114,6 +114,12 @@ runs:
           exit 1
         fi
         echo "Module: $(go list -m)"
+      shell: bash
+
+    - name: Tidy module dependencies
+      working-directory: ${{ inputs.module-path }}
+      run: |
+        go mod tidy
       shell: bash
 
     - name: Run tests
