@@ -1,5 +1,5 @@
 # file: .github/workflows/ci.yml
-# version: 1.0.0
+# version: 1.0.1
 # guid: d4e5f6a7-b8c9-0123-def0-234567890123
 
 name: CI
@@ -81,6 +81,21 @@ jobs:
           }
           EOF
 
+      - name: Create sample GoReleaser config
+        run: |
+          cat > test-project/.goreleaser.yml << 'EOF'
+          project_name: test-project
+          builds:
+            - main: ./main.go
+              env:
+                - CGO_ENABLED=0
+              goos: [linux]
+              goarch: [amd64]
+          archives:
+            - format: tar.gz
+              name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+          EOF
+
       - name: Test action execution
         id: test
         uses: ./
@@ -91,6 +106,8 @@ jobs:
           run-tests: "true"
           run-linters: "false"
           create-release: "false"
+          goreleaser-config: "./test-project/.goreleaser.yml"
+          skip-publish: "true"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Verify outputs
