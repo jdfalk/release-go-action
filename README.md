@@ -87,21 +87,21 @@ GitHub Action for releasing Go modules with GoReleaser, automatic SDK tagging an
 
 ## Inputs
 
-| Input                | Description                             | Required | Default               |
-| -------------------- | --------------------------------------- | -------- | --------------------- |
-| `module-path`        | Path to Go module                       | No       | `.`                   |
-| `go-version`         | Go version to use                       | No       | `1.23`                |
-| `tag`                | Release tag (e.g., v1.2.3)              | Yes      | -                     |
-| `is-sdk`             | Enable SDK-specific tagging             | No       | `false`               |
-| `sdk-language`       | SDK language identifier                 | No       | -                     |
-| `run-tests`          | Run tests before release                | No       | `true`                |
-| `run-linters`        | Run linters before release              | No       | `true`                |
-| `create-release`     | Create GitHub release                   | No       | `true`                |
-| `release-notes`      | Custom release notes                    | No       | -                     |
-| `goreleaser-config`  | Path to .goreleaser.yml config          | No       | `.goreleaser.yml`     |
-| `goreleaser-args`    | Additional GoReleaser arguments         | No       | -                     |
-| `skip-publish`       | Skip publishing (use --snapshot)        | No       | `false`               |
-| `github-token`       | GitHub token                            | No       | `${{ github.token }}` |
+| Input               | Description                      | Required | Default               |
+| ------------------- | -------------------------------- | -------- | --------------------- |
+| `module-path`       | Path to Go module                | No       | `.`                   |
+| `go-version`        | Go version to use                | No       | `1.23`                |
+| `tag`               | Release tag (e.g., v1.2.3)       | Yes      | -                     |
+| `is-sdk`            | Enable SDK-specific tagging      | No       | `false`               |
+| `sdk-language`      | SDK language identifier          | No       | -                     |
+| `run-tests`         | Run tests before release         | No       | `true`                |
+| `run-linters`       | Run linters before release       | No       | `true`                |
+| `create-release`    | Create GitHub release            | No       | `true`                |
+| `release-notes`     | Custom release notes             | No       | -                     |
+| `goreleaser-config` | Path to .goreleaser.yml config   | No       | `.goreleaser.yml`     |
+| `goreleaser-args`   | Additional GoReleaser arguments  | No       | -                     |
+| `skip-publish`      | Skip publishing (use --snapshot) | No       | `false`               |
+| `github-token`      | GitHub token                     | No       | `${{ github.token }}` |
 
 ## Outputs
 
