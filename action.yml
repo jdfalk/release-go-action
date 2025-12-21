@@ -101,7 +101,7 @@ runs:
         echo "version=$CHOSEN" >> "$GITHUB_OUTPUT"
 
     - name: Set up Go
-      uses: actions/setup-go@v5
+      uses: actions/setup-go@v6
       with:
         go-version: ${{ steps.detect-go-version.outputs.version || inputs.go-version }}
         cache-dependency-path: ${{ inputs.module-path }}/go.sum
