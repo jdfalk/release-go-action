@@ -7,18 +7,21 @@
 ## Recent Changes
 
 ### ✅ Implemented GoReleaser Integration
-**Status:** Complete
-**Date:** 2025-12-19
+
+**Status:** Complete **Date:** 2025-12-19
 
 **Changes:**
+
 - Migrated from manual builds to GoReleaser-based releases
 - Added GoReleaser configuration support
-- Updated action.yml with new inputs (goreleaser-config, goreleaser-args, skip-publish)
+- Updated action.yml with new inputs (goreleaser-config, goreleaser-args,
+  skip-publish)
 - Created .goreleaser.example.yml template
 - Updated README.md with GoReleaser documentation
 - Added artifacts output
 
 **Benefits:**
+
 - Professional-grade releases with cross-compilation
 - Automatic archive creation and checksums
 - Better changelog generation
@@ -30,14 +33,16 @@
 ## CI/CD Status
 
 ### #todo Fix CI Test Failures
-**Status:** In Progress
-**Priority:** Critical
+
+**Status:** In Progress **Priority:** Critical
 
 **Current Issues:**
+
 - CI tests may need GoReleaser config to pass
 - Need to verify all tests work with new GoReleaser approach
 
 **Next Steps:**
+
 1. Monitor CI test runs
 2. Add sample .goreleaser.yml for testing
 3. Update test workflows if needed
@@ -47,26 +52,28 @@
 ## Migration Tasks
 
 ### #todo Update Documentation Examples
-**Status:** Pending
-**Priority:** Medium
+
+**Status:** Pending **Priority:** Medium
 
 **Tasks:**
+
 - Add more GoReleaser configuration examples
 - Document common build scenarios
 - Add troubleshooting section for GoReleaser
 - Document migration from manual builds
 
 ### #todo Migrate to Reusable Workflows
-**Status:** Pending
-**Priority:** Low
-**Dependencies:** CI must pass first
 
-**Description:**
-After implementing the action and fixing CI, migrate to use centralized reusable workflows:
+**Status:** Pending **Priority:** Low **Dependencies:** CI must pass first
+
+**Description:** After implementing the action and fixing CI, migrate to use
+centralized reusable workflows:
+
 - `.github/workflows/reusable-action-ci.yml`
 - `.github/workflows/reusable-release.yml`
 
 **Tasks:**
+
 1. Verify action works with GoReleaser
 2. Fix all CI failures
 3. Update workflow to call reusable workflow
@@ -78,10 +85,11 @@ After implementing the action and fixing CI, migrate to use centralized reusable
 ## Testing Requirements
 
 ### #todo Comprehensive Testing
-**Status:** Pending
-**Priority:** High
+
+**Status:** Pending **Priority:** High
 
 **Required Tests:**
+
 1. Test with basic .goreleaser.yml
 2. Test without .goreleaser.yml (defaults)
 3. Test multi-module repositories
@@ -91,6 +99,7 @@ After implementing the action and fixing CI, migrate to use centralized reusable
 7. Test release creation
 
 **Test Coverage:**
+
 - [ ] Single module builds
 - [ ] Multi-module repositories
 - [ ] SDK tagging scenarios
@@ -107,10 +116,11 @@ After implementing the action and fixing CI, migrate to use centralized reusable
 ## Enhancement Opportunities
 
 ### #todo GoReleaser Advanced Features
-**Status:** Pending
-**Priority:** Low
+
+**Status:** Pending **Priority:** Low
 
 **Potential Enhancements:**
+
 1. Support for GoReleaser Pro features
 2. Docker image builds
 3. Homebrew tap support
@@ -122,6 +132,5 @@ After implementing the action and fixing CI, migrate to use centralized reusable
 
 ---
 
-**Last Updated:** 2025-12-19
-**Next Review:** After CI passes
-**Critical Path:** Fix CI → Complete testing → Add advanced features
+**Last Updated:** 2025-12-19 **Next Review:** After CI passes **Critical Path:**
+Fix CI → Complete testing → Add advanced features

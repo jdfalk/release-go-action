@@ -23,7 +23,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5.6.0
         with:
-          go-version: "1.23"
+          go-version: '1.23'
 
       - name: Create test project
         run: |
@@ -48,12 +48,12 @@ jobs:
       - name: Test single platform build
         uses: ./
         with:
-          version: "1.0.0-test"
-          project-path: "./test-project"
-          binary-name: "test-single"
-          platforms: "linux/amd64"
-          upload-artifacts: "false"
-          dry-run: "true"
+          version: '1.0.0-test'
+          project-path: './test-project'
+          binary-name: 'test-single'
+          platforms: 'linux/amd64'
+          upload-artifacts: 'false'
+          dry-run: 'true'
 
   test-multi-platform:
     name: Test Multi-Platform Build
@@ -65,7 +65,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5.6.0
         with:
-          go-version: "1.23"
+          go-version: '1.23'
 
       - name: Create test project
         run: |
@@ -93,12 +93,12 @@ jobs:
       - name: Test multi-platform build
         uses: ./
         with:
-          version: "1.0.0-multiplatform"
-          project-path: "./test-project"
-          binary-name: "test-multi"
-          platforms: "linux/amd64,linux/arm64,darwin/amd64,darwin/arm64,windows/amd64"
-          upload-artifacts: "true"
-          dry-run: "true"
+          version: '1.0.0-multiplatform'
+          project-path: './test-project'
+          binary-name: 'test-multi'
+          platforms: 'linux/amd64,linux/arm64,darwin/amd64,darwin/arm64,windows/amd64'
+          upload-artifacts: 'true'
+          dry-run: 'true'
 
       - name: Verify artifacts
         run: |
@@ -120,7 +120,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5.6.0
         with:
-          go-version: "1.23"
+          go-version: '1.23'
 
       - name: Create test project with version info
         run: |
@@ -150,10 +150,10 @@ jobs:
       - name: Test with ldflags
         uses: ./
         with:
-          version: "1.0.0-ldflags"
-          project-path: "./test-project"
-          binary-name: "test-ldflags"
-          platforms: "linux/amd64"
-          ldflags: "-X main.Version=1.0.0-ldflags -X main.Commit=test123"
-          upload-artifacts: "false"
-          dry-run: "true"
+          version: '1.0.0-ldflags'
+          project-path: './test-project'
+          binary-name: 'test-ldflags'
+          platforms: 'linux/amd64'
+          ldflags: '-X main.Version=1.0.0-ldflags -X main.Commit=test123'
+          upload-artifacts: 'false'
+          dry-run: 'true'

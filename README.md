@@ -4,7 +4,8 @@
 
 # Release Go Module Action
 
-GitHub Action for releasing Go modules with GoReleaser, automatic SDK tagging and multi-module repository support.
+GitHub Action for releasing Go modules with GoReleaser, automatic SDK tagging
+and multi-module repository support.
 
 ## Features
 
@@ -125,6 +126,7 @@ GitHub Action for releasing Go modules with GoReleaser, automatic SDK tagging an
 ### Nested Module Release
 
 For a repository with structure:
+
 ```
 .
 ├── go.mod (main)
@@ -156,6 +158,7 @@ This creates tag: `pkg/auth/v1.0.0`
 ```
 
 This creates both:
+
 - `sdk/go/v2.1.0` (module tag)
 - `go/v2.1.0` (SDK tag)
 
@@ -201,7 +204,8 @@ This creates both:
 
 ## GoReleaser Configuration
 
-This action uses GoReleaser for building and releasing. You need a `.goreleaser.yml` file in your repository.
+This action uses GoReleaser for building and releasing. You need a
+`.goreleaser.yml` file in your repository.
 
 ### Example Configuration
 
@@ -242,7 +246,9 @@ changelog:
 
 ### Without GoReleaser
 
-If you don't have a `.goreleaser.yml` file, GoReleaser will use sensible defaults. However, for production use, we recommend creating a custom configuration.
+If you don't have a `.goreleaser.yml` file, GoReleaser will use sensible
+defaults. However, for production use, we recommend creating a custom
+configuration.
 
 ## Tag Format
 
@@ -259,5 +265,5 @@ MIT
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or PR.
-GitHub Action for releasing Go modules with SDK support
+Contributions are welcome! Please open an issue or PR. GitHub Action for
+releasing Go modules with SDK support

@@ -51,7 +51,7 @@ jobs:
     needs: validate
     strategy:
       matrix:
-        go-version: ["1.21", "1.22", "1.23"]
+        go-version: ['1.21', '1.22', '1.23']
     steps:
       - name: Checkout code
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
@@ -100,14 +100,14 @@ jobs:
         id: test
         uses: ./
         with:
-          module-path: "./test-project"
-          go-version: "${{ matrix.go-version }}"
-          tag: "v1.0.0-test"
-          run-tests: "true"
-          run-linters: "false"
-          create-release: "false"
-          goreleaser-config: "./test-project/.goreleaser.yml"
-          skip-publish: "true"
+          module-path: './test-project'
+          go-version: '${{ matrix.go-version }}'
+          tag: 'v1.0.0-test'
+          run-tests: 'true'
+          run-linters: 'false'
+          create-release: 'false'
+          goreleaser-config: './test-project/.goreleaser.yml'
+          skip-publish: 'true'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Verify outputs
