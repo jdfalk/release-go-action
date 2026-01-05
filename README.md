@@ -5,7 +5,7 @@
 # Release Go Module Action
 
 GitHub Action for releasing Go modules with GoReleaser, automatic SDK tagging
-and multi-module repository support.
+and multi-module repository support, with optional dockerized execution.
 
 ## Features
 
@@ -86,23 +86,36 @@ and multi-module repository support.
     github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+### Force Docker Execution
+
+```yaml
+- name: Release Go module (docker)
+  uses: jdfalk/release-go-action@v1
+  with:
+    tag: v1.0.0
+    use-docker: true
+    docker-image: ghcr.io/jdfalk/release-go-action:main
+```
+
 ## Inputs
 
-| Input               | Description                      | Required | Default               |
-| ------------------- | -------------------------------- | -------- | --------------------- |
-| `module-path`       | Path to Go module                | No       | `.`                   |
-| `go-version`        | Go version to use                | No       | `1.23`                |
-| `tag`               | Release tag (e.g., v1.2.3)       | Yes      | -                     |
-| `is-sdk`            | Enable SDK-specific tagging      | No       | `false`               |
-| `sdk-language`      | SDK language identifier          | No       | -                     |
-| `run-tests`         | Run tests before release         | No       | `true`                |
-| `run-linters`       | Run linters before release       | No       | `true`                |
-| `create-release`    | Create GitHub release            | No       | `true`                |
-| `release-notes`     | Custom release notes             | No       | -                     |
-| `goreleaser-config` | Path to .goreleaser.yml config   | No       | `.goreleaser.yml`     |
-| `goreleaser-args`   | Additional GoReleaser arguments  | No       | -                     |
-| `skip-publish`      | Skip publishing (use --snapshot) | No       | `false`               |
-| `github-token`      | GitHub token                     | No       | `${{ github.token }}` |
+| Input               | Description                                                      | Required | Default                                 |
+| ------------------- | ---------------------------------------------------------------- | -------- | --------------------------------------- |
+| `module-path`       | Path to Go module                                                | No       | `.`                                     |
+| `go-version`        | Go version to use                                                | No       | `1.24`                                  |
+| `tag`               | Release tag (e.g., v1.2.3)                                       | Yes      | -                                       |
+| `is-sdk`            | Enable SDK-specific tagging                                      | No       | `false`                                 |
+| `sdk-language`      | SDK language identifier                                          | No       | -                                       |
+| `run-tests`         | Run tests before release                                         | No       | `true`                                  |
+| `run-linters`       | Run linters before release                                       | No       | `true`                                  |
+| `create-release`    | Create GitHub release                                            | No       | `true`                                  |
+| `release-notes`     | Custom release notes                                             | No       | -                                       |
+| `goreleaser-config` | Path to .goreleaser.yml config                                   | No       | `.goreleaser.yml`                       |
+| `goreleaser-args`   | Additional GoReleaser arguments                                  | No       | -                                       |
+| `skip-publish`      | Skip publishing (use --snapshot)                                 | No       | `false`                                 |
+| `github-token`      | GitHub token                                                     | No       | `${{ github.token }}`                   |
+| `use-docker`        | Run the action inside the published container image              | No       | `false`                                 |
+| `docker-image`      | Docker image reference (tag or digest) when `use-docker` is true | No       | `ghcr.io/jdfalk/release-go-action:main` |
 
 ## Outputs
 
