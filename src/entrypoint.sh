@@ -71,15 +71,16 @@ if [ "$CREATE_RELEASE" = "true" ]; then
   fi
 fi
 
-ARGS="release --clean"
+set -- release --clean
 if [ "$SKIP_PUBLISH" = "true" ]; then
-  ARGS="$ARGS --snapshot"
+  set -- "$@" --snapshot
 fi
 if [ -n "$GORELEASER_ARGS" ]; then
-  ARGS="$ARGS $GORELEASER_ARGS"
+  # shellcheck disable=SC2086
+  set -- "$@" $GORELEASER_ARGS
 fi
 
-goreleaser "$ARGS" --config "$GORELEASER_CONFIG"
+goreleaser --config "$GORELEASER_CONFIG" "$@"
 
 if [ -n "${GITHUB_OUTPUT:-}" ]; then
   printf 'tag=%s\n' "$TAG" >>"$GITHUB_OUTPUT"
