@@ -1,6 +1,7 @@
 <!-- file: TODO.md -->
 <!-- version: 1.1.0 -->
 <!-- guid: 12345678-1234-1234-1234-123456789006 -->
+<!-- last-edited: 2026-01-19 -->
 
 # TODO - release-go-action
 

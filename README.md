@@ -1,6 +1,7 @@
 <!-- file: README.md -->
 <!-- version: 1.1.1 -->
 <!-- guid: 7e3a9f2d-4b8c-4e1a-9d6f-2c7e4a1b9d5e -->
+<!-- last-edited: 2026-01-19 -->
 
 # Release Go Module Action
 
