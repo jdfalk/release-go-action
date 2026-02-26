@@ -1,4 +1,4 @@
-FROM golang:1.24-alpine@sha256:9a9ecb55b1826d81e53d85f9833abca9c89342e277329315b992dce1ae7ba703
+FROM golang:1.26-alpine@sha256:d4c4845f5d60c6a974c6000ce58ae079328d03ab7f721a0734277e69905473e5
 
 RUN apk add --no-cache git bash
 
