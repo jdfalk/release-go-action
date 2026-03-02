@@ -169,7 +169,7 @@ runs:
 
     - name: Set up Go
       if: inputs.use-docker != 'true'
-      uses: actions/setup-go@v5
+      uses: actions/setup-go@v6
       with:
         go-version: ${{ steps.detect-go-version.outputs.version || inputs.go-version }}
         cache-dependency-path: ${{ inputs.module-path }}/go.sum
@@ -268,7 +268,7 @@ runs:
     - name: Run GoReleaser
       id: goreleaser
       if: inputs.use-docker != 'true'
-      uses: goreleaser/goreleaser-action@v5
+      uses: goreleaser/goreleaser-action@v7
       with:
         distribution: goreleaser
         version: v2.13.1
