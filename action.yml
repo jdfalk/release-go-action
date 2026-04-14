@@ -1,1 +1,293 @@
-IyBmaWxlOiBhY3Rpb24ueW1sCiMgdmVyc2lvbjogMS40LjAKIyBndWlkOiA0ZDlhMmU3Yi01YzFmLTRhM2UtOGI2ZC05ZTJjN2Y0YTFiOGUKCm5hbWU6ICJSZWxlYXNlIEdvIE1vZHVsZSIKZGVzY3JpcHRpb246ICJSZWxlYXNlIEdvIG1vZHVsZXMgd2l0aCBHb1JlbGVhc2VyLCBhdXRvbWF0aWMgU0RLIHRhZ2dpbmcgYW5kIG11bHRpLW1vZHVsZSBzdXBwb3J0IgphdXRob3I6ICJqZGZhbGsiCgpicmFuZGluZzoKICBpY29uOiAiYm94IgogIGNvbG9yOiAiYmx1ZSIKCmlucHV0czoKICBtb2R1bGUtcGF0aDoKICAgIGRlc2NyaXB0aW9uOiAiUGF0aCB0byBHbyBtb2R1bGUgKHJlbGF0aXZlIHRvIHJlcG9zaXRvcnkgcm9vdCkiCiAgICByZXF1aXJlZDogZmFsc2UKICAgIGRlZmF1bHQ6ICIuIgogIGdvLXZlcnNpb246CiAgICBkZXNjcmlwdGlvbjogIkdvIHZlcnNpb24gdG8gdXNlIgogICAgcmVxdWlyZWQ6IGZhbHNlCiAgICBkZWZhdWx0OiAiMS4yNCIKICB0YWc6CiAgICBkZXNjcmlwdGlvbjogIlJlbGVhc2UgdGFnIChlLmcuLCB2MS4yLjMpIgogICAgcmVxdWlyZWQ6IHRydWUKICBpcy1zZGs6CiAgICBkZXNjcmlwdGlvbjogIldoZXRoZXIgdGhpcyBpcyBhbiBTREsgbW9kdWxlIChlbmFibGVzIFNESy1zcGVjaWZpYyB0YWdnaW5nKSIKICAgIHJlcXVpcmVkOiBmYWxzZQogICAgZGVmYXVsdDogImZhbHNlIgogIHNkay1sYW5ndWFnZToKICAgIGRlc2NyaXB0aW9uOiAiU0RLIGxhbmd1YWdlIChnbywgcHl0aG9uLCB0eXBlc2NyaXB0LCBldGMuKSIKICAgIHJlcXVpcmVkOiBmYWxzZQogICAgZGVmYXVsdDogIiIKICBydW4tdGVzdHM6CiAgICBkZXNjcmlwdGlvbjogIldoZXRoZXIgdG8gcnVuIHRlc3RzIGJlZm9yZSByZWxlYXNlIgogICAgcmVxdWlyZWQ6IGZhbHNlCiAgICBkZWZhdWx0OiAidHJ1ZSIKICBydW4tbGludGVyczoKICAgIGRlc2NyaXB0aW9uOiAiV2hldGhlciB0byBydW4gbGludGVycyBiZWZvcmUgcmVsZWFzZSIKICAgIHJlcXVpcmVkOiBmYWxzZQogICAgZGVmYXVsdDogInRydWUiCiAgY3JlYXRlLXJlbGVhc2U6CiAgICBkZXNjcmlwdGlvbjogIldoZXRoZXIgdG8gY3JlYXRlIGEgR2l0SHViIHJlbGVhc2UiCiAgICByZXF1aXJlZDogZmFsc2UKICAgIGRlZmF1bHQ6ICJ0cnVlIgogIHJlbGVhc2Utbm90ZXM6CiAgICBkZXNjcmlwdGlvbjogIkN1c3RvbSByZWxlYXNlIG5vdGVzIChtYXJrZG93bikiCiAgICByZXF1aXJlZDogZmFsc2UKICAgIGRlZmF1bHQ6ICIiCiAgZ29yZWxlYXNlci1jb25maWc6CiAgICBkZXNjcmlwdGlvbjogIlBhdGggdG8gLmdvcmVsZWFzZXIueW1sIGNvbmZpZyBmaWxlIgogICAgcmVxdWlyZWQ6IGZhbHNlCiAgICBkZWZhdWx0OiAiLmdvcmVsZWFzZXIueW1sIgogIGdvcmVsZWFzZXItYXJnczoKICAgIGRlc2NyaXB0aW9uOiAiQWRkaXRpb25hbCBhcmd1bWVudHMgdG8gcGFzcyB0byBHb1JlbGVhc2VyIgogICAgcmVxdWlyZWQ6IGZhbHNlCiAgICBkZWZhdWx0OiAiIgogIHNraXAtcHVibGlzaDoKICAgIGRlc2NyaXB0aW9uOiAiU2tpcCBwdWJsaXNoaW5nICh1c2UgLS1zbmFwc2hvdCkiCiAgICByZXF1aXJlZDogZmFsc2UKICAgIGRlZmF1bHQ6ICJmYWxzZSIKICBnaXRodWItdG9rZW46CiAgICBkZXNjcmlwdGlvbjogIkdpdEh1YiB0b2tlbiBmb3IgY3JlYXRpbmcgcmVsZWFzZXMiCiAgICByZXF1aXJlZDogZmFsc2UKICAgIGRlZmF1bHQ6ICR7eyBnaXRodWIudG9rZW4gfX0KICB1c2UtZG9ja2VyOgogICAgZGVzY3JpcHRpb246ICJSdW4gaW5zaWRlIHRoZSBwcmVidWlsdCBEb2NrZXIgaW1hZ2UiCiAgICByZXF1aXJlZDogZmFsc2UKICAgIGRlZmF1bHQ6ICJmYWxzZSIKICBkb2NrZXItaW1hZ2U6CiAgICBkZXNjcmlwdGlvbjogIkRvY2tlciBpbWFnZSByZWZlcmVuY2UgKHRhZyBvciBkaWdlc3QpIHRvIHVzZSB3aGVuIHVzZS1kb2NrZXIgaXMgdHJ1ZSIKICAgIHJlcXVpcmVkOiBmYWxzZQogICAgZGVmYXVsdDogImdoY3IuaW8vamRmYWxrL3JlbGVhc2UtZ28tYWN0aW9uOm1haW4iCgpvdXRwdXRzOgogIHRhZzoKICAgIGRlc2NyaXB0aW9uOiAiVGhlIHRhZyB0aGF0IHdhcyBjcmVhdGVkIgogICAgdmFsdWU6ICR7eyBzdGVwcy50YWctb3V0cHV0Lm91dHB1dHMudGFnIH19CiAgc2RrLXRhZzoKICAgIGRlc2NyaXB0aW9uOiAiVGhlIFNESy1zcGVjaWZpYyB0YWcgKGlmIGFwcGxpY2FibGUpIgogICAgdmFsdWU6ICR7eyBzdGVwcy5zZGstdGFnLm91dHB1dHMuc2RrLXRhZyB9fQ==
+# file: action.yml
+# version: 1.3.0
+# guid: 4d9a2e7b-5c1f-4a3e-8b6d-9e2c7f4a1b8e
+
+name: "Release Go Module"
+description: "Release Go modules with GoReleaser, automatic SDK tagging and multi-module support"
+author: "jdfalk"
+
+branding:
+  icon: "box"
+  color: "blue"
+
+inputs:
+  module-path:
+    description: "Path to Go module (relative to repository root)"
+    required: false
+    default: "."
+  go-version:
+    description: "Go version to use"
+    required: false
+    default: "1.24"
+  tag:
+    description: "Release tag (e.g., v1.2.3)"
+    required: true
+  is-sdk:
+    description: "Whether this is an SDK module (enables SDK-specific tagging)"
+    required: false
+    default: "false"
+  sdk-language:
+    description: "SDK language (go, python, typescript, etc.)"
+    required: false
+    default: ""
+  run-tests:
+    description: "Whether to run tests before release"
+    required: false
+    default: "true"
+  run-linters:
+    description: "Whether to run linters before release"
+    required: false
+    default: "true"
+  create-release:
+    description: "Whether to create a GitHub release"
+    required: false
+    default: "true"
+  release-notes:
+    description: "Custom release notes (markdown)"
+    required: false
+    default: ""
+  goreleaser-config:
+    description: "Path to .goreleaser.yml config file"
+    required: false
+    default: ".goreleaser.yml"
+  goreleaser-args:
+    description: "Additional arguments to pass to GoReleaser"
+    required: false
+    default: ""
+  skip-publish:
+    description: "Skip publishing (use --snapshot)"
+    required: false
+    default: "false"
+  github-token:
+    description: "GitHub token for creating releases"
+    required: false
+    default: ${{ github.token }}
+  use-docker:
+    description: "Run inside the prebuilt Docker image"
+    required: false
+    default: "false"
+  docker-image:
+    description: "Docker image reference (tag or digest) to use when use-docker is true"
+    required: false
+    default: "ghcr.io/jdfalk/release-go-action:main"
+
+outputs:
+  tag:
+    description: "The tag that was created"
+    value: ${{ steps.tag-output.outputs.tag }}
+  sdk-tag:
+    description: "The SDK-specific tag (if applicable)"
+    value: ${{ steps.sdk-tag.outputs.sdk-tag }}
+  release-url:
+    description: "URL of the created release"
+    value: ${{ steps.goreleaser.outputs.url || steps.goreleaser-docker.outputs.url }}
+  artifacts:
+    description: "List of artifacts created"
+    value: ${{ steps.goreleaser.outputs.artifacts || steps.goreleaser-docker.outputs.artifacts }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run release (docker)
+      id: goreleaser-docker
+      if: inputs.use-docker == 'true'
+      shell: bash
+      env:
+        MODULE_PATH: ${{ inputs.module-path }}
+        GO_VERSION: ${{ inputs.go-version }}
+        TAG_INPUT: ${{ inputs.tag }}
+        IS_SDK: ${{ inputs.is-sdk }}
+        SDK_LANGUAGE: ${{ inputs.sdk-language }}
+        RUN_TESTS: ${{ inputs.run-tests }}
+        RUN_LINTERS: ${{ inputs.run-linters }}
+        CREATE_RELEASE: ${{ inputs.create-release }}
+        RELEASE_NOTES: ${{ inputs.release-notes }}
+        GORELEASER_CONFIG: ${{ inputs.goreleaser-config }}
+        GORELEASER_ARGS: ${{ inputs.goreleaser-args }}
+        SKIP_PUBLISH: ${{ inputs.skip-publish }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        DOCKER_IMAGE: ${{ inputs.docker-image }}
+        GITHUB_OUTPUT: ${{ env.GITHUB_OUTPUT }}
+        GITHUB_STEP_SUMMARY: ${{ env.GITHUB_STEP_SUMMARY }}
+      run: |
+        set -euo pipefail
+
+        if ! command -v docker >/dev/null 2>&1; then
+          echo "::error::Docker is required when use-docker is true."
+          exit 1
+        fi
+
+        touch "$GITHUB_OUTPUT" "$GITHUB_STEP_SUMMARY"
+
+        if ! docker pull "$DOCKER_IMAGE"; then
+          echo "::warning::Pull failed, building $DOCKER_IMAGE locally."
+          docker build --tag "$DOCKER_IMAGE" "${{ github.action_path }}"
+        fi
+
+        docker run --rm \
+          -e MODULE_PATH \
+          -e GO_VERSION \
+          -e TAG_INPUT \
+          -e IS_SDK \
+          -e SDK_LANGUAGE \
+          -e RUN_TESTS \
+          -e RUN_LINTERS \
+          -e CREATE_RELEASE \
+          -e RELEASE_NOTES \
+          -e GORELEASER_CONFIG \
+          -e GORELEASER_ARGS \
+          -e SKIP_PUBLISH \
+          -e GITHUB_TOKEN \
+          -e GITHUB_OUTPUT \
+          -e GITHUB_STEP_SUMMARY \
+          -v "$GITHUB_OUTPUT:$GITHUB_OUTPUT" \
+          -v "$GITHUB_STEP_SUMMARY:$GITHUB_STEP_SUMMARY" \
+          -v "${{ github.workspace }}:/repo" \
+          -w /repo \
+          "$DOCKER_IMAGE"
+
+    - name: Detect required Go version from go.mod
+      id: detect-go-version
+      if: inputs.use-docker != 'true'
+      shell: bash
+      run: |
+        set -euo pipefail
+        MOD_PATH="${{ inputs.module-path }}"
+        GO_REQUIRED=""
+        if [ -f "$MOD_PATH/go.mod" ]; then
+          GO_REQUIRED=$(grep -E '^go [0-9]+\.[0-9]+' "$MOD_PATH/go.mod" | awk '{print $2}' | head -n1 || true)
+        fi
+        # Fallback to input
+        INPUT_VER="${{ inputs.go-version }}"
+        CHOSEN="$INPUT_VER"
+        if [ -n "$GO_REQUIRED" ]; then
+          # Compare versions using sort -V
+          HIGHER=$(printf "%s\n%s\n" "$INPUT_VER" "$GO_REQUIRED" | sort -V | tail -n1)
+          CHOSEN="$HIGHER"
+        fi
+        echo "version=$CHOSEN" >> "$GITHUB_OUTPUT"
+
+    - name: Set up Go
+      if: inputs.use-docker != 'true'
+      uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+      with:
+        go-version: ${{ steps.detect-go-version.outputs.version || inputs.go-version }}
+        cache-dependency-path: ${{ inputs.module-path }}/go.sum
+
+    - name: Verify Go module
+      if: inputs.use-docker != 'true'
+      working-directory: ${{ inputs.module-path }}
+      run: |
+        if [ ! -f "go.mod" ]; then
+          echo "Error: go.mod not found in ${{ inputs.module-path }}"
+          exit 1
+        fi
+        echo "Module: $(go list -m)"
+      shell: bash
+
+    - name: Tidy module dependencies
+      if: inputs.use-docker != 'true'
+      working-directory: ${{ inputs.module-path }}
+      run: |
+        go mod tidy
+      shell: bash
+
+    - name: Run tests
+      if: inputs.use-docker != 'true' && inputs.run-tests == 'true'
+      working-directory: ${{ inputs.module-path }}
+      run: |
+        go test -v -race -coverprofile=coverage.out ./...
+        go tool cover -func=coverage.out
+      shell: bash
+
+    - name: Run linters
+      if: inputs.use-docker != 'true' && inputs.run-linters == 'true'
+      working-directory: ${{ inputs.module-path }}
+      run: |
+        go vet ./...
+        if command -v golangci-lint &> /dev/null; then
+          golangci-lint run
+        fi
+      shell: bash
+
+    - name: Generate SDK tag
+      id: sdk-tag
+      if: inputs.use-docker != 'true' && inputs.is-sdk == 'true' && inputs.sdk-language != ''
+      run: |
+        SDK_TAG="${{ inputs.sdk-language }}/${{ inputs.tag }}"
+        echo "sdk-tag=$SDK_TAG" >> $GITHUB_OUTPUT
+        echo "Generated SDK tag: $SDK_TAG"
+      shell: bash
+
+    - name: Set tag output
+      id: tag-output
+      if: inputs.use-docker != 'true'
+      run: |
+        MODULE_PATH="${{ inputs.module-path }}"
+        if [ "$MODULE_PATH" != "." ]; then
+          TAG="${MODULE_PATH}/${{ inputs.tag }}"
+        else
+          TAG="${{ inputs.tag }}"
+        fi
+        echo "tag=$TAG" >> $GITHUB_OUTPUT
+        echo "Generated tag: $TAG"
+      shell: bash
+
+    - name: Create and push tags
+      if: inputs.use-docker != 'true' && inputs.create-release == 'true'
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      run: |
+        TAG="${{ steps.tag-output.outputs.tag }}"
+
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
+        # Create main tag
+        if git rev-parse "$TAG" >/dev/null 2>&1; then
+          echo "Tag $TAG already exists, skipping creation"
+        else
+          git tag -a "$TAG" -m "Release $TAG"
+          git push origin "$TAG" || echo "Warning: Failed to push tag (may already exist remotely)"
+          echo "Created and pushed tag: $TAG"
+        fi
+
+        # Create SDK tag if applicable
+        if [ "${{ inputs.is-sdk }}" == "true" ] && [ -n "${{ steps.sdk-tag.outputs.sdk-tag }}" ]; then
+          SDK_TAG="${{ steps.sdk-tag.outputs.sdk-tag }}"
+          if git rev-parse "$SDK_TAG" >/dev/null 2>&1; then
+            echo "SDK tag $SDK_TAG already exists, skipping creation"
+          else
+            git tag -a "$SDK_TAG" -m "SDK Release $SDK_TAG"
+            git push origin "$SDK_TAG" || echo "Warning: Failed to push SDK tag (may already exist remotely)"
+            echo "Created and pushed SDK tag: $SDK_TAG"
+          fi
+        fi
+      shell: bash
+
+    - name: Run GoReleaser
+      id: goreleaser
+      if: inputs.use-docker != 'true'
+      uses: goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
+      with:
+        distribution: goreleaser
+        version: v2.13.1
+        args: release --clean ${{ inputs.skip-publish == 'true' && '--snapshot' || '' }} ${{ inputs.goreleaser-args }}
+        workdir: ${{ inputs.module-path }}
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+
+    - name: Output summary
+      run: |
+        echo "## Go Module Release Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Module Path:** ${{ inputs.module-path }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Tag:** ${{ steps.tag-output.outputs.tag }}" >> $GITHUB_STEP_SUMMARY
+        if [ "${{ inputs.is-sdk }}" == "true" ]; then
+          echo "**SDK Tag:** ${{ steps.sdk-tag.outputs.sdk-tag }}" >> $GITHUB_STEP_SUMMARY
+        fi
+        echo "**Go Version:** ${{ inputs.go-version }}" >> $GITHUB_STEP_SUMMARY
+        if [ "${{ inputs.skip-publish }}" != "true" ]; then
+          echo "**Release URL:** ${{ steps.goreleaser.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+        fi
+      shell: bash
